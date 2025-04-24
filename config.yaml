@@ -1,0 +1,45 @@
+proxy:
+  secretToken: "some-secret"
+  service:
+    type: NodePort
+
+hub:
+  image:
+    name: jupyterhub/jupyterhub
+    tag: dev
+  extraConfig:
+    customConfig: |
+      c.Spawner.cmd = ["jupyter-labhub"]
+      from jupyterhub.auth import DummyAuthenticator
+      c.JupyterHub.authenticator_class = DummyAuthenticator
+      c.DummyAuthenticator.password = "password"
+      c.JupyterHub.shutdown_on_logout = True
+
+
+singleuser:
+  storage:
+    type: dynamic
+    dynamic:
+      storageClass: standard
+  extraEnv:
+    USER: "{username}"
+
+cull:
+  enabled: true
+  timeout: 900       # 15 minutes
+  every: 60          # check every 60 seconds
+  users: true        # cull even if the user is still logged in
+  removeNamedServers: true
+
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  hosts:
+    - jupyterhub.local
+  tls:
+    - secretName: jupyterhub-tls
+      hosts:
+        - jupyterhub.local
+
+
