@@ -385,7 +385,6 @@ pycaret
 pycodestyle
 pycosat
 pycparser
-pycrypto
 pyct
 pycurl
 pydantic

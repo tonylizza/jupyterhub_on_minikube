@@ -1,8 +1,18 @@
 FROM amazonlinux:2023
 
-RUN dnf install -y python3 python3-pip gcc g++ make libcurl-devel && \
+RUN dnf install -y \
+    python3 \
+    python3-pip \
+    python3-devel \
+    gcc \
+    g++ \
+    make \
+    libcurl-devel \
+    sqlite-devel \
+    openssl-devel \
+    shadow-utils && \
     python3 -m ensurepip && \
-    python3 -m pip install --no-cache-dir --upgrade pip --ignore-installed
+    pip3 install --no-cache-dir --upgrade pip --ignore-installed
 
 # Copy and install dependencies
 

@@ -2,6 +2,11 @@ proxy:
   secretToken: "some-secret"
   service:
     type: NodePort
+  chp:
+    image:
+      name: jupyterhub/jupyter-proxy
+      tag: dev
+
 
 hub:
   image:
@@ -17,6 +22,9 @@ hub:
 
 
 singleuser:
+  image: 
+    name: jupyterhub/jupyter-singleuser
+    tag: dev
   storage:
     type: dynamic
     dynamic:

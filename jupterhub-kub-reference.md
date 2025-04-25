@@ -16,7 +16,13 @@ Paste the output URL into your browser to open JupyterHub.
 
 ## 📦 Helm Operations
 
-**Install or upgrade JupyterHub:**
+**Add Helm repo for Zero to JupyterHub**
+```bash
+helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/
+helm repo update
+```
+
+**Install or modify JupyterHub using the Zero to JupyterHub Helm Chart:**
 ```bash
 helm upgrade --install jhub jupyterhub/jupyterhub \
   --namespace jhub --create-namespace -f config.yaml
@@ -46,10 +52,14 @@ eval $(minikube docker-env -u)
 
 ## 🏗️ Building Docker Images Inside Minikube
 
-**Build your Hub image inside Minikube:**
+**Build your images inside Minikube:**
 ```bash
 docker build -t jupyterhub/jupyterhub:dev hub/
+docker build -t jupyterhub/jupyter-proxy:dev proxy/
+docker build -t jupyterhub/jupyter-singleuser:dev singleuser/
 ```
+
+Note: You can use any names for the above docker images as long as those names are referenced in config.yaml.
 
 > Make sure to run `eval $(minikube docker-env)` before building.
 
@@ -98,7 +108,4 @@ helm upgrade --install jhub jupyterhub/jupyterhub \
 kubectl delete pod -l component=hub -n jhub
 ```
 
----
-
-Let me know if you’d like to add instructions for enabling TLS, setting up Ingress, using Azure SSO, or enabling idle culling!
 
